@@ -7,7 +7,8 @@ class Board extends React.Component {
     state = {
         turn: "",
         winner: "",
-    
+        winningElementsIDs: [],
+
         elements: [
             {
                 id: 0,
@@ -69,14 +70,13 @@ class Board extends React.Component {
                 turn: "ai",
             })
         }
-
     }
 
     playerMove = e => {
-        if (this.state.turn !== "player") {
+        if (this.state.turn !== "player" || this.state.winner !== "") {
             return;
         }
-     
+
         const elements = [...this.state.elements];
         const newValue = {
             id: Number(e.target.id),
@@ -92,9 +92,6 @@ class Board extends React.Component {
     };
 
     aiMove = () => {
-        if (this.state.turn !== "ai") {
-            return;
-        }
         const elements = [...this.state.elements];
         const freeElements = elements.filter(el => el.taken === false);
         const randomNumber = Math.floor(Math.random() * freeElements.length);
@@ -111,50 +108,65 @@ class Board extends React.Component {
         }
 
         elements[randomElement.id] = newValue;
-        this.setState({
-            elements,
+
+        const aiMove = {
+            elements: elements,
             turn: "player",
-        })
+        };
+        return aiMove;
     }
 
     endGame = () => {
         const elements = this.state.elements;
         let winner = "";
+        let winningElementsIDs = [];
 
         if (elements[0].choice === elements[1].choice && elements[0].choice === elements[2].choice && elements[0].choice !== "") {
             winner = elements[0].choice;
+            winningElementsIDs.push(elements[0].id, elements[1].id, elements[2].id);
 
         } else if (elements[3].choice === elements[4].choice && elements[4].choice === elements[5].choice && elements[3].choice !== "") {
             winner = elements[3].choice;
+            winningElementsIDs.push(elements[3].id, elements[4].id, elements[5].id);
+
         } else if (elements[6].choice === elements[7].choice && elements[7].choice === elements[8].choice && elements[6].choice !== "") {
             winner = elements[6].choice;
+            winningElementsIDs.push(elements[6].id, elements[7].id, elements[8].id);
+
         } else if (elements[0].choice === elements[3].choice && elements[3].choice === elements[6].choice && elements[0].choice !== "") {
             winner = elements[0].choice;
+            winningElementsIDs.push(elements[0].id, elements[3].id, elements[6].id);
+
         } else if (elements[1].choice === elements[4].choice && elements[4].choice === elements[7].choice && elements[1].choice !== "") {
             winner = elements[1].choice;
+            winningElementsIDs.push(elements[1].id, elements[4].id, elements[7].id);
+
         } else if (elements[2].choice === elements[5].choice && elements[5].choice === elements[8].choice && elements[2].choice !== "") {
             winner = elements[2].choice;
+            winningElementsIDs.push(elements[2].id, elements[5].id, elements[8].id);
+
         } else if (elements[0].choice === elements[4].choice && elements[4].choice === elements[8].choice && elements[0].choice !== "") {
             winner = elements[0].choice;
+            winningElementsIDs.push(elements[0].id, elements[4].id, elements[8].id);
+
         } else if (elements[2].choice === elements[4].choice && elements[4].choice === elements[6].choice && elements[2].choice !== "") {
             winner = elements[2].choice;
+            winningElementsIDs.push(elements[2].id, elements[4].id, elements[6].id);
         }
 
         if (winner !== "") {
-            this.props.getScore(winner)
-            this.setState({
-                turn: "",
-                winner,
-            })
+            return {winner, winningElementsIDs};
+        } else {
+            return "";
         }
     }
 
     render() {
 
         const elements = this.state.elements.map(el => (
-            <BoardElement key={el.id} data={this.state.elements[el.id]} playerMove={this.playerMove} endLine={this.state.endLine}/>
+            <BoardElement key={el.id} data={this.state.elements[el.id]} playerMove={this.playerMove} winningElementsIDs={this.state.winningElementsIDs}/>
         ))
-        
+
 
         return (
             <section id="board">
@@ -168,13 +180,33 @@ class Board extends React.Component {
     }
 
     componentDidUpdate() {
+        
         if (this.state.winner === "") {
-            this.endGame();
+            const endGame = this.endGame();
+
+            if (endGame === "") {
+                if (this.state.turn === "ai") {
+                    const elements = this.aiMove().elements;
+                    const turn = this.aiMove().turn;
+
+                    this.setState({
+                        elements,
+                        turn,
+                    })
+                }
+            }
+
+            if (endGame !== "") {
+                this.props.getScore(endGame.winner);
+
+                this.setState({
+                    winner: endGame.winner,
+                    turn: "",
+                    winningElementsIDs: endGame.winningElementsIDs,
+                })
+            }
         }
-        if (this.state.turn === "ai") {
-            this.aiMove();
-        }
- 
+      
     }
 }
 

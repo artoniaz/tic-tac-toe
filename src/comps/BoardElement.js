@@ -3,8 +3,25 @@ import "./BoardElement.css";
 
 const BoardElement = props => {
     const { id, choice } = props.data;
-    
-    if (choice === "player") {
+    const { winningElementsIDs } = props;
+    let winningID = [-2];
+
+
+    if (winningElementsIDs.length !== 0) {
+        winningID = winningElementsIDs.filter(el => el == id);
+    }
+
+    if (winningID[0] === id && choice === "player"){
+        return (
+            <div className="playerChoice playerWinning">
+            </div>
+        )
+    } else if ( winningID[0] == id && choice === "ai"){
+        return (
+            <div className="aiChoice aiWinning">
+            </div>
+        )
+    } else if (choice === "player") {
         return (
             <div className="playerChoice">
             </div>
@@ -20,7 +37,6 @@ const BoardElement = props => {
             </div>
         )
     }
-
 }
 
-export default BoardElement;
+    export default BoardElement;

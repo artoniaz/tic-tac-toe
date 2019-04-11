@@ -34,14 +34,17 @@
     border-radius: 50%;
 }
 
-#board .endLine{
+#board div.playerWinning::before{
     content: "";
-    position: absolute;
-    top: calc(7vw / 2);
-    left: calc(7vw / 2);
-    transform: translate(-50%, 0);
-    width: 0.5vw;
-    height: 14vw;
-    background-color: green;
-    z-index: 999;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: yellowgreen;
+}
+#board div.aiWinning::before{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: lightcoral;
 }
