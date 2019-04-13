@@ -7,3 +7,19 @@
     flex-wrap: wrap;
     max-width: 21vw;
 }
+
+#board div:nth-child(1), #board div:nth-child(2), #board div:nth-child(3){
+    border-top: none;
+}
+
+#board div:nth-child(1), #board div:nth-child(4), #board div:nth-child(7){
+    border-left: none;
+}
+
+#board div:nth-child(3), #board div:nth-child(6), #board div:nth-child(9){
+    border-right: none;
+}
+
+#board div:nth-child(7), #board div:nth-child(8), #board div:nth-child(9){
+    border-bottom: none;
+}

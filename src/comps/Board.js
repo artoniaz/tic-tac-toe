@@ -58,6 +58,62 @@ class Board extends React.Component {
         ]
     }
 
+    clearGame = () => {
+        this.setState({
+            // turn: "",
+            winner: "",
+            winningElementsIDs: [],
+    
+            elements: [
+                {
+                    id: 0,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 1,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 2,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 3,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 4,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 5,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 6,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 7,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 8,
+                    choice: "",
+                    taken: false,
+                },
+            ]
+        })
+    };
+
     whoStart = () => {
         const randomNumber = Math.floor(Math.random() * 2);
 
@@ -167,7 +223,6 @@ class Board extends React.Component {
             <BoardElement key={el.id} data={this.state.elements[el.id]} playerMove={this.playerMove} winningElementsIDs={this.state.winningElementsIDs}/>
         ))
 
-
         return (
             <section id="board">
                 {elements}
@@ -180,6 +235,11 @@ class Board extends React.Component {
     }
 
     componentDidUpdate() {
+        if (this.props.gameEnd) {
+            this.clearGame();
+            debugger
+            this.props.finish();
+        }
         
         if (this.state.winner === "") {
             const endGame = this.endGame();

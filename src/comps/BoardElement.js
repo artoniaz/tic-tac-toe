@@ -16,7 +16,7 @@ const BoardElement = props => {
             <div className="playerChoice playerWinning">
             </div>
         )
-    } else if ( winningID[0] == id && choice === "ai"){
+    } else if ( winningID[0] === id && choice === "ai"){
         return (
             <div className="aiChoice aiWinning">
             </div>

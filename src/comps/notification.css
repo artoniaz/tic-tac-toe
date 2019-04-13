@@ -1,0 +1,56 @@
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 5px solid black;
+    min-width: 70vw;
+    min-height: 50vh;
+    z-index: 45;
+    text-align: center;
+    width: 70vw;
+}
+
+.notification h1{
+    margin: 7%; 
+}
+
+.notification label {
+    display: block;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.notification input{
+    font-size: 25px;
+    border: 2px solid black;
+    padding: 5px;
+    margin-top: 16px;
+}
+
+.notification p {
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+.notification button{
+    display: block;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    border: 2px solid black;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.notification button:hover{
+    background-color: black;
+    color: white;
+    transition: 0.4s;
+}

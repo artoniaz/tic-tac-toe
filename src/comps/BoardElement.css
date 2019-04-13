@@ -1,4 +1,4 @@
-#board div{
+#board div {
     width: 7vw;
     height: 7vw;
     border: 2px solid black;
@@ -6,9 +6,11 @@
     cursor: pointer;
 }
 
-#board div.playerChoice, #board div.aiChoice{
+#board div.playerChoice,
+#board div.aiChoice {
     cursor: default;
 }
+
 
 #board div.playerChoice::after {
     content: "";
@@ -34,17 +36,28 @@
     border-radius: 50%;
 }
 
-#board div.playerWinning::before{
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: yellowgreen;
+#board div.playerWinning {
+    animation: playerWinning 0.6s linear forwards;
 }
-#board div.aiWinning::before{
-    content: "";
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: lightcoral;
+
+#board div.aiWinning {
+    animation: aiWinning 0.6s linear forwards;
+}
+
+@keyframes playerWinning {
+    0%{
+        background-color: transparent;
+    }
+    100%{
+        background-color: yellowgreen;
+    }
+}
+
+@keyframes aiWinning {
+    0%{
+        background-color: transparent;
+    }
+    100%{
+        background-color: lightcoral;
+    }
 }

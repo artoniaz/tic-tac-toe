@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import "./Score.css"
+import { spawn } from 'child_process';
 
 const Score = props => {
         return (
             <section id="score">
-                <p>Twoje wygrane: {props.score.playerWin}</p>
-                <p>Wygrane komputera: {props.score.aiWin}</p>
+                <p>{props.playerName ? props.playerName : <span>podaj imię</span>}: {props.score.playerWin}</p>
+                <p>Komputer: {props.score.aiWin}</p>
             </section>
         )
 }
