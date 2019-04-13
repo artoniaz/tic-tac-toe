@@ -39,7 +39,7 @@ class App extends Component {
         this.setState({
           winner,
         })
-      }, 1000);
+      }, 500);
     }
   }
 
