@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import "./Score.css"
-import { spawn } from 'child_process';
 
 const Score = props => {
         return (

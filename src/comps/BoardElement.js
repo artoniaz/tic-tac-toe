@@ -8,7 +8,7 @@ const BoardElement = props => {
 
 
     if (winningElementsIDs.length !== 0) {
-        winningID = winningElementsIDs.filter(el => el == id);
+        winningID = winningElementsIDs.filter(el => el === id);
     }
 
     if (winningID[0] === id && choice === "player"){
