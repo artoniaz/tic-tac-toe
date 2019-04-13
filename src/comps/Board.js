@@ -1,6 +1,7 @@
 import React from 'react';
 import "./Board.css"
 import BoardElement from "./BoardElement";
+import Turn from "./Turn";
 
 class Board extends React.Component {
 
@@ -57,62 +58,6 @@ class Board extends React.Component {
             },
         ]
     }
-
-    clearGame = () => {
-        this.setState({
-            // turn: "",
-            winner: "",
-            winningElementsIDs: [],
-    
-            elements: [
-                {
-                    id: 0,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 1,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 2,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 3,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 4,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 5,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 6,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 7,
-                    choice: "",
-                    taken: false,
-                },
-                {
-                    id: 8,
-                    choice: "",
-                    taken: false,
-                },
-            ]
-        })
-    };
 
     whoStart = () => {
         const randomNumber = Math.floor(Math.random() * 2);
@@ -176,7 +121,10 @@ class Board extends React.Component {
         const elements = this.state.elements;
         let winner = "";
         let winningElementsIDs = [];
+        const chosenCounter = elements.filter(el => el.choice !== "")
 
+
+        
         if (elements[0].choice === elements[1].choice && elements[0].choice === elements[2].choice && elements[0].choice !== "") {
             winner = elements[0].choice;
             winningElementsIDs.push(elements[0].id, elements[1].id, elements[2].id);
@@ -208,24 +156,87 @@ class Board extends React.Component {
         } else if (elements[2].choice === elements[4].choice && elements[4].choice === elements[6].choice && elements[2].choice !== "") {
             winner = elements[2].choice;
             winningElementsIDs.push(elements[2].id, elements[4].id, elements[6].id);
+        } else if (chosenCounter.length === 9 && winner === ""){
+            winner = "draw";
         }
 
         if (winner !== "") {
-            return {winner, winningElementsIDs};
+            return { winner, winningElementsIDs };
         } else {
             return "";
         }
     }
 
+    clearGame = () => {
+        if (this.props.end !== true || this.state.winner === "") {
+            return;
+        }
+        this.setState({
+            winner: "",
+            winningElementsIDs: [],
+
+            elements: [
+                {
+                    id: 0,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 1,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 2,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 3,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 4,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 5,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 6,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 7,
+                    choice: "",
+                    taken: false,
+                },
+                {
+                    id: 8,
+                    choice: "",
+                    taken: false,
+                },
+            ]
+        })
+        this.props.clear();
+        this.whoStart();
+    }
+
     render() {
 
         const elements = this.state.elements.map(el => (
-            <BoardElement key={el.id} data={this.state.elements[el.id]} playerMove={this.playerMove} winningElementsIDs={this.state.winningElementsIDs}/>
+            <BoardElement key={el.id} data={this.state.elements[el.id]} playerMove={this.playerMove} winningElementsIDs={this.state.winningElementsIDs} />
         ))
 
         return (
             <section id="board">
                 {elements}
+                <Turn turn={this.state.turn} playerName={this.props.playerName}/>
             </section>
         )
     }
@@ -235,12 +246,7 @@ class Board extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.gameEnd) {
-            this.clearGame();
-            debugger
-            this.props.finish();
-        }
-        
+        this.clearGame();
         if (this.state.winner === "") {
             const endGame = this.endGame();
 
@@ -248,11 +254,12 @@ class Board extends React.Component {
                 if (this.state.turn === "ai") {
                     const elements = this.aiMove().elements;
                     const turn = this.aiMove().turn;
-
-                    this.setState({
-                        elements,
-                        turn,
-                    })
+                    setTimeout(() => {
+                        this.setState({
+                            elements,
+                            turn,
+                        })
+                    }, 600)
                 }
             }
 
@@ -266,8 +273,9 @@ class Board extends React.Component {
                 })
             }
         }
-      
+
     }
+
 }
 
 export default Board;

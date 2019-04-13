@@ -8,7 +8,7 @@ const EndBoard = props => {
     if (winner === "player") {
         return (
             <div className="notification">
-                <h1 style={{ color: "green" }}>{playerName} wygrałeś</h1>
+                <h1 style={{ color: "green" }}>{playerName}, udało się!</h1>
                 <p>aktualne wyniki</p>
                 <p>{playerName}: {playerWin}</p>
                 <p>Komputer: {aiWin}</p>

@@ -34,6 +34,12 @@ class App extends Component {
           winner,
         })
       }, 1000);
+    } else {
+      setTimeout(() => {
+        this.setState({
+          winner,
+        })
+      }, 1000);
     }
   }
 
@@ -45,23 +51,26 @@ class App extends Component {
   };
 
   clearGame = () => {
-    this.setState({
-      gameEnd: true,
-    })
-  };
-
-  finishEndGame = () => {
-    this.setState({
-      gameEnd: false,
-    })
+    if (this.state.gameEnd) {
+      this.setState({
+        winner: "",
+        gameEnd: !this.state.gameEnd,
+      })
+    } else {
+      this.setState({
+        gameEnd: !this.state.gameEnd,
+      })
+    }
   }
+
+
 
   render() {
     return (
-      <div>
+      <div id="game">
         {this.state.playerName ? null : <OpeningBoard getPlayerName={this.getPlayerName} />}
         <Score score={this.state} playerName={this.state.playerName} />
-        <Board getScore={this.getScore} gameEnd={this.state.gameEnd} finish={this.finishEndGame}/>
+        <Board getScore={this.getScore} end={this.state.gameEnd} clear={this.clearGame} playerName={this.state.playerName}/>
         {this.state.winner ? <EndBoard data={this.state} clear={this.clearGame} /> : null}
       </div>
     );
